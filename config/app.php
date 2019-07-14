@@ -15,6 +15,7 @@ return [
 
     'name' => env('APP_NAME', 'Sistem Informasi Manajemen Restoran'),
     'subtitle' => 'Lele Resto',
+    'pathgambar' => 'public/gambar/',
     /*
     |--------------------------------------------------------------------------
     | Application Environment

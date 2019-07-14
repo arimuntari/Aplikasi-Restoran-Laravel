@@ -35,7 +35,12 @@ class KategorimenuController extends Controller
      */
     public function store(Request $request)
     {
+        $file =  $request->file('gambar')->getClientOriginalName();
+        $gambar = time()."-".$file;
+        $request->gambar->move(public_path('gambar/kategori-menu'), $gambar);
         $kategorimenu = ms_kategorimenu::create($request->all());
+        $kategorimenu->gambar =  $gambar;
+        $kategorimenu->save();
         return redirect('kategorimenu');
     }
 

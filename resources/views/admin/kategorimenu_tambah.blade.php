@@ -19,14 +19,16 @@
           </div>
           <div class="box-body">
             @include('admin.validasi')
-            <form class="form-horizontal" action="{{ route('kategorimenu.store') }}" method="post" enctype="multipart/form-data">
+            <form  action="{{ route('kategorimenu.store') }}" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
               <div class="box-body">
                 <div class="form-group">
-                  <label for="nama_kategori" class="col-sm-2 control-label">Nama Kategori</label>
-                  <div class="col-sm-10">
+                  <label for="nama_kategori" class=" control-label">Nama Kategori</label>
                     <input class="form-control" type="text" name="nama_kategori" placeholder="Nama Kategori">
-                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="nama_kategori" class="control-label">Gambar</label>
+                    <input class="form-control" type="file" name="gambar">
                 </div>
               </div>
               <div class="box-footer">

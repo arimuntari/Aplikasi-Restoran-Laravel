@@ -44,6 +44,7 @@
               		<tr>
               			<th width="3%">No</th>
               			<th>Nama Kategori</th>
+                    <th>Gambar</th>
               			<th width="10%">Status</th>
               			<th width="18%"></th>
               		</tr>
@@ -55,6 +56,13 @@
               		<tr>
               			<td>{{ $no }}</td>
               			<td>{{ $kategorimenu->nama_kategori }}</td>
+                    <td>
+                        <a href="{{ url('gambar/kategori-menu/'.$kategorimenu->gambar) }}" target="_blank">
+                        <img src="{{ url('gambar/kategori-menu/'.$kategorimenu->gambar) }}"
+                             width="50px"  height="50px" 
+                             title="{{ $kategorimenu->nama_kategori }}"></img>
+                        </a>
+                      </td>
               			<td>{!! Helpers::cekAktif($kategorimenu->aktif) !!}</td>
               			<td style="word-wrap: nowrap">
 

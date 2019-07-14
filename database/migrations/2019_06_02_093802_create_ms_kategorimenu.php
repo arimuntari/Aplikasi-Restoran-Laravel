@@ -16,6 +16,7 @@ class CreateMsKategorimenu extends Migration
         Schema::create('ms_kategorimenu', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nama_kategori');
+            $table->string('gambar');
             $table->string('aktif')->default('1');
             $table->timestamps();
         });
