@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ms_menu;
+use App\ms_kategorimenu;
 class MenuController extends Controller
 {
     /**
@@ -24,7 +25,8 @@ class MenuController extends Controller
      */
     public function create()
     {
-        return view('admin.menu_tambah');
+        $kategorimenus= ms_kategorimenu::all();
+        return view('admin.menu', compact('kategorimenus'));
     }
 
     /**
@@ -35,7 +37,12 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
+        $file =  $request->file('gambar')->getClientOriginalName();
+        $gambar = time()."-".$file;
+        $request->gambar->move(public_path('gambar/menu'), $gambar);
         $menu = ms_menu::create($request->all());
+        $menu->gambar =  $gambar;
+        $menu->save();
         return redirect('menu');
     }
 
@@ -59,7 +66,8 @@ class MenuController extends Controller
     public function edit($id)
     {
         $menu= ms_menu::find($id);
-        return view('admin.menu_edit', compact('menu'));
+        $kategorimenus= ms_kategorimenu::all();
+        return view('admin.menu', compact('menu', 'kategorimenus'));
     }
 
     /**
@@ -73,6 +81,19 @@ class MenuController extends Controller
     {
         $menu= ms_menu::find($id);
         $menu->nama_menu = $request->nama_menu;
+        $menu->id_kategori = $request->id_kategori;
+        $menu->harga = $request->harga;
+        if(!empty($request->gambar)){
+            $file =  $request->file('gambar')->getClientOriginalName();
+            $gambar = time()."-".$file;
+            $cek = $request->gambar->move(public_path('gambar/menu'), $gambar);
+            if($cek){
+                if(file_exists(public_path('gambar/menu/'.$menu->gambar))){
+                  unlink(public_path('gambar/menu/'.$menu->gambar));
+                }
+                $menu->gambar =  $gambar;
+            }
+        }
         $menu->save();
         return redirect('menu');
     }
@@ -85,8 +106,11 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
-        $hapus = ms_menu::find($id);
-        $hapus->delete();
+        $menu = ms_menu::find($id);
+        if(file_exists(public_path('gambar/menu/'.$menu->gambar))){
+          unlink(public_path('gambar/menu/'.$menu->gambar));
+        }
+        $menu->delete();
         return redirect('menu');
     }
 

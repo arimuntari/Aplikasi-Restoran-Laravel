@@ -24,7 +24,7 @@ class KategorimenuController extends Controller
      */
     public function create()
     {
-        return view('admin.kategorimenu_tambah');
+        return view('admin.kategorimenu');
     }
 
     /**
@@ -64,7 +64,7 @@ class KategorimenuController extends Controller
     public function edit($id)
     {
         $kategorimenu= ms_kategorimenu::find($id);
-        return view('admin.kategorimenu_edit', compact('kategorimenu'));
+        return view('admin.kategorimenu', compact('kategorimenu'));
     }
 
     /**
@@ -78,6 +78,17 @@ class KategorimenuController extends Controller
     {
         $kategorimenu= ms_kategorimenu::find($id);
         $kategorimenu->nama_kategori = $request->nama_kategori;
+        if(!empty($request->gambar)){
+            $file =  $request->file('gambar')->getClientOriginalName();
+            $gambar = time()."-".$file;
+            $cek = $request->gambar->move(public_path('gambar/kategori-menu'), $gambar);
+            if($cek){
+                if(file_exists(public_path('gambar/kategori-menu/'.$kategorimenu->gambar))){
+                  unlink(public_path('gambar/kategori-menu/'.$kategorimenu->gambar));
+                }
+                $kategorimenu->gambar =  $gambar;
+            }
+        }
         $kategorimenu->save();
         return redirect('kategorimenu');
     }
@@ -90,8 +101,11 @@ class KategorimenuController extends Controller
      */
     public function destroy($id)
     {
-        $hapus = ms_kategorimenu::find($id);
-        $hapus->delete();
+        $kategorimenu = ms_kategorimenu::find($id);
+        if(file_exists(public_path('gambar/kategori-menu/'.$kategorimenu->gambar))){
+            unlink(public_path('gambar/kategori-menu/'.$kategorimenu->gambar));
+        }
+        $kategorimenu->delete();
         return redirect('kategorimenu');
     }
 

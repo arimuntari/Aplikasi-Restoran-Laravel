@@ -23,6 +23,6 @@ Route::middleware('cek-login')->group(function () {
 	Route::resource('usermanager', 'UsersController');
 	Route::get('kategorimenu/{id}/aktif', 'KategorimenuController@aktif')->name('kategorimenu.aktif');
 	Route::resource('kategorimenu', 'KategorimenuController');
-	Route::get('menu/{id}/aktif', 'MenuController@aktif')->name('MenuController.aktif');
+	Route::get('menu/{id}/aktif', 'MenuController@aktif')->name('menu.aktif');
 	Route::resource('menu', 'MenuController');
 });
